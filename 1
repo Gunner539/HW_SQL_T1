@@ -1,0 +1,64 @@
+-- drop table if exists Genres cascade;
+-- drop table if exists Albums cascade;
+-- drop table if exists Artists cascade;
+-- drop table if exists Compilation_albums cascade;
+-- drop table if exists Tracks cascade;
+-- drop table if exists Compilation_album_tracks cascade;
+-- drop table if exists Artists_by_genres cascade;
+-- drop table if exists Albums_artists cascade;
+
+
+create table if not exists Genres(
+	genre_id serial primary key,
+	name character varying(50) unique not null
+);
+
+create table if not exists Albums(
+	album_id serial primary key,
+	album_name character varying(100) not null,
+	album_year integer
+);
+
+ create table if not exists Artists(
+	id serial primary key,
+	pseudonym character varying(100) not null,
+	name character varying(100) not null
+);
+
+create table if not exists Compilation_albums(
+	ca_id serial primary key,
+	ca_name character varying(100) not null,
+	ca_year integer
+);
+
+create table if not exists Tracks(
+	track_id serial primary key,
+	album_id integer references Albums(album_id) not null,
+	track_name character varying(100) not null,
+	track_duration integer not null
+);
+	
+create table if not exists Compilation_album_tracks(
+	id serial primary key,
+	ca_id integer references Compilation_albums(ca_id) not null,
+	track_id integer references Tracks(track_id) not null
+);
+
+create table if not exists Artists_by_genres(
+	id serial primary key,
+	artist_id integer references Artists(id) not null,
+	genre_id integer references Genres(genre_id) not null
+);
+
+create table if not exists Albums_artists(
+	id serial primary key,
+	artist_id integer references Artists(id) not null,
+	album_id integer references Albums(album_id) not null
+);
+
+
+	
+	
+	
+	
+	
